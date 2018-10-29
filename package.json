@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "x-ray": "^2.3.2"
+  },
+
+  "scripts": {
+    "get": "node src/index.js"
+  }
+}

@@ -1,0 +1,13 @@
+# package directories
+node_modules
+jspm_packages
+samples.json
+
+# Serverless directories
+.serverless
+
+# Misc
+.projectile
+
+# MacOS
+.DS_Store
