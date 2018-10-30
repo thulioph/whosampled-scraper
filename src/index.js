@@ -1,8 +1,24 @@
-let dale = require('../api/sample');
+const sample = require('../api/sample');
+const system = require('../api/system');
 
-let callback = function(ds) {
-  console.warn('callback', ds.body.tracks);
+const artist = process.argv[2] || null;
+
+if (artist) {
+  const artistName = artist.toLowerCase().replace(' ', '-');
+  const songs = sample.songs(artist);
+
+  songs.then(result => {
+    if (result && result.length > 0) {
+      const info = result.map(({ sampleUrl }) => sample.getInfo(sampleUrl));
+
+      Promise.all(info).then(values => {
+        system.writeFile({
+          name: `${artistName}.json`,
+          data: JSON.stringify(values),
+        });
+      });
+    }
+  }).catch(err => {
+    console.warn('Algo deu errado:', err);
+  });
 }
-
-// dale.get('Wu-Tang-Clan', callback);
-dale.get(process.argv[2], callback);
