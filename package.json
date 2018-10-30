@@ -1,9 +1,20 @@
 {
-  "dependencies": {
-    "x-ray": "^2.3.2"
-  },
-
+  "name": "whosampled-scraper",
+  "version": "1.0.0",
+  "description": "Get information about samples used by your favorite artists",
+  "main": "index.js",
   "scripts": {
+    "test": "npm test",
     "get": "node src/index.js"
+  },
+  "keywords": [
+    "scraper",
+    "sample",
+    "music"
+  ],
+  "author": "Thulio Philipe <thulioph@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "x-ray": "^2.3.3"
   }
 }
