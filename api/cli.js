@@ -4,7 +4,7 @@ const questions = [
   {
     type: 'input',
     name: 'artist',
-    message: 'What is the artist you want to search?',
+    message: 'Who is the artist you want to search?',
     default: () => {
       return 'Kendrick Lamar';
     },
