@@ -1,16 +1,13 @@
 import { Controller, Get, Param } from '@nestjs/common'
-import { WhoSampledService } from './whosampled.service'
+
+import { ArtistsService } from './artists.service'
 
 @Controller('artist')
 export class ArtistsController {
-  constructor(
-    private wsService: WhoSampledService
-  ) {}
+  constructor(private artService: ArtistsService) {}
 
   @Get(':name')
-  async getArtistConnections(
-    @Param('name') name: string
-  ) {
-    return await this.wsService.getArtistConnections(name);
+  async getArtistConnections(@Param('name') name: string) {
+    return await this.artService.getArtistConnections(name);
   }
 }

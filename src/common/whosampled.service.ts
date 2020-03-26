@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import * as xray from 'x-ray';
 
-import { Connection } from './connection.model';
+import { Connection } from '../artists/connection.model';
 
 @Injectable()
 export class WhoSampledService {

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ArtistsController } from './artists.controller'
-import { WhoSampledService } from './whosampled.service'
+import { ArtistsService } from './artists.service'
+import { WhoSampledService } from '../common/whosampled.service'
 
 @Module({
   controllers: [ArtistsController],
-  providers: [WhoSampledService],
+  providers: [ArtistsService, WhoSampledService],
 })
 export class ArtistsModule {}
