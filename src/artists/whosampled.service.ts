@@ -1,26 +1,47 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import * as xray from 'x-ray';
+
 import { Connection } from './connection.model';
 
 @Injectable()
 export class WhoSampledService {
   private artistConnections: Connection[] = [];
+  private baseUrl: string = 'https://www.whosampled.com/search';
 
-  getArtistConnections(artistName: string): {} {
-    const connection = this.artistConnections.find(
-      el => el.title === artistName,
-    );
-    if (!connection) throw new NotFoundException('Could not find artist.');
-    return { ...connection };
+  private getConnectionsUrl(artistName: string): string {
+    return `${this.baseUrl}/connections/?q=${encodeURIComponent(artistName)}`;
   }
 
-  // should not be used
-  addNewArtistConnection(artistName: string, desc: string): {} {
-    const newConnection = new Connection(
-      new Date().getTime().toString(),
-      artistName,
-      desc,
-    );
-    this.artistConnections.push(newConnection);
-    return { ...newConnection };
+  private async makeXrayRequest(
+    url: string,
+    selector: string,
+    scope: any
+  ): Promise<[]> {
+    if (!url || !selector || !scope) throw new Error('Missing parameters.')
+    const x = xray();
+    return await x(url, selector, scope);
+  }
+
+  private async fetchArtistConnections(artistName: string) {
+    const URL = this.getConnectionsUrl(artistName);
+    const connections = await this.makeXrayRequest(URL, 'li.listEntry', [
+      {
+        link: 'a@href',
+        title: '.connectionTitle a',
+        image: 'img@src',
+      },
+    ]);
+
+    if (!connections) throw new NotFoundException('No connections for this artist.');
+
+    this.artistConnections = connections;
+  }
+
+  async getArtistConnections(artistName: string): Promise<any> {
+    if (!artistName) throw new Error('No artist name was provided.');
+
+    await this.fetchArtistConnections(artistName);
+
+    return [...this.artistConnections]
   }
 }

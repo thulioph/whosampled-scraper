@@ -1,7 +1,7 @@
 export class Connection {
   constructor(
-    public id: string,
+    public link: string,
     public title: string,
-    public description: string
+    public image: string
   ){}
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common'
+import { Controller, Get, Param } from '@nestjs/common'
 import { WhoSampledService } from './whosampled.service'
 
 @Controller('artist')
@@ -8,16 +8,9 @@ export class ArtistsController {
   ) {}
 
   @Get(':name')
-  getArtistConnections(@Param('name') name: string) {
-    return this.wsService.getArtistConnections(name);
-  }
-
-  // should not be used
-  @Post()
-  addNewArtistConnection(
-    @Body('title') title: string,
-    @Body('description') desc: string
+  async getArtistConnections(
+    @Param('name') name: string
   ) {
-    return this.wsService.addNewArtistConnection(title, desc)
+    return await this.wsService.getArtistConnections(name);
   }
 }
