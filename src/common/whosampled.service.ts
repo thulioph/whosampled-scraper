@@ -1,11 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from '@nestjs/common';
 import * as xray from 'x-ray';
 
-import { Connection } from '../artists/connection.model';
+import { Nodes } from './nodes.service'
 
 @Injectable()
 export class WhoSampledService {
-  private artistConnections: Connection[] = [];
   private baseUrl: string = 'https://www.whosampled.com/search';
 
   private getConnectionsUrl(artistName: string): string {
@@ -15,33 +14,43 @@ export class WhoSampledService {
   private async makeXrayRequest(
     url: string,
     selector: string,
-    scope: any
+    scope: any,
   ): Promise<[]> {
-    if (!url || !selector || !scope) throw new Error('Missing parameters.')
+    if (!url || !selector || !scope) throw new Error('Missing parameters.');
     const x = xray();
     return await x(url, selector, scope);
   }
 
-  private async fetchArtistConnections(artistName: string) {
-    const URL = this.getConnectionsUrl(artistName);
-    const connections = await this.makeXrayRequest(URL, 'li.listEntry', [
-      {
-        link: 'a@href',
-        title: '.connectionTitle a',
-        image: 'img@src',
-      },
-    ]);
+  async fetchConnectionsDetails(URL: string): Promise<[]> {
+    const details = await this.makeXrayRequest(URL, 'body', Nodes.detailedEntry());
 
-    if (!connections) throw new NotFoundException('No connections for this artist.');
+    if (!details) {
+      throw new NotFoundException('No connections found for this artist.');
+    }
 
-    this.artistConnections = connections;
+    return details;
   }
 
-  async getArtistConnections(artistName: string): Promise<any> {
+  private async fetchArtistConnections(artistName: string): Promise<[]> {
+    const URL = this.getConnectionsUrl(artistName);
+    const connections = await this.makeXrayRequest(URL, 'li.listEntry', Nodes.baseEntry());
+
+    if (!connections || !connections.length) {
+      throw new NotFoundException('No connections found for this artist.');
+    }
+
+    return connections;
+  }
+
+  async getArtistConnections(artistName: string): Promise<{}> {
     if (!artistName) throw new Error('No artist name was provided.');
 
-    await this.fetchArtistConnections(artistName);
+    const connections = await this.fetchArtistConnections(artistName);
 
-    return [...this.artistConnections]
+    const info = connections.map(
+      async ({ link }) => await this.fetchConnectionsDetails(link)
+    );
+
+    return await Promise.all(info).then(data => data);
   }
 }
