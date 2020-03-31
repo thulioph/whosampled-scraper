@@ -4,7 +4,7 @@
   "description": "get sample informations from whosampled website",
   "author": "thulioph",
   "private": true,
-  "license": "",
+  "license": "MIT",
   "scripts": {
     "preinstall": "npm i -g @nestjs/cli",
     "prebuild": "rimraf dist",
