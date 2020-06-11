@@ -1,26 +1,48 @@
-<h1 align="center">Who Sampled Scraper</h1>
+# Who Sampled Scraper
 
-## Description
+API that gets samples information from [WhoSampled](https://www.whosampled.com) website.
 
-A scraper that gets samples information from [whosampled](https://www.whosampled.com)
+> [API Demo](https://whosampled-scraper.herokuapp.com) or [Postman Collection](https://documenter.getpostman.com/view/9591924/SzYUah8C)
 
-## Installation
+![demo](demo.gif)
+
+## Requirements
+
+In order to run this project locally, you must have:
+
+- [Nodejs@12.14.0](https://nodejs.org/dist/v12.14.0/)
+- [Nestjs CLI](https://nestjs.com/)
+
+## Usage
+
+To install all dependencies, run:
 
 ```bash
-$ yarn install
+$ npm install
 ```
 
-## Running the app
+### development
 
-> You can follow [this postman collection](https://documenter.getpostman.com/view/9591924/SzYUah8C) to make fun.
+To start the **development** mode, run:
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+$ npm run start:dev
 ```
+
+### production
+
+To generate a **production** version, run:
+
+```bash
+$ npm run build
+```
+
+To **serve a production** version, run:
+
+```bash
+$ npm run start:prod
+```
+
+## License
+
+[MIT License](https://thulioph.mit-license.org/) © Thulio Philipe
