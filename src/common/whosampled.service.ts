@@ -18,8 +18,10 @@ import { Nodes } from './nodes.service';
 export class WhoSampledService {
   private baseUrl = 'https://www.whosampled.com/search';
 
-  private getConnectionsUrl(artistName: string): string {
-    return `${this.baseUrl}/connections/?q=${encodeURIComponent(artistName)}`;
+  private getConnectionsUrl(artistName: string, pageNum = '1'): string {
+    return `${this.baseUrl}/connections/?q=${encodeURIComponent(
+      artistName,
+    )}&ap=${pageNum}`; // first page start at 1, not 0
   }
 
   private async makeXrayRequest(
@@ -47,8 +49,11 @@ export class WhoSampledService {
     return details;
   }
 
-  private async fetchArtistConnections(artistName: string): Promise<[]> {
-    const URL = this.getConnectionsUrl(artistName);
+  private async fetchArtistConnections(
+    artistName: string,
+    pageNum = '1',
+  ): Promise<[]> {
+    const URL = this.getConnectionsUrl(artistName, pageNum);
     const connections = await this.makeXrayRequest(
       URL,
       'li.listEntry',
@@ -62,10 +67,10 @@ export class WhoSampledService {
     return connections;
   }
 
-  async getArtistConnections(artistName: string): Promise<{}> {
+  async getArtistConnections(artistName: string, pageNum = '1'): Promise<{}> {
     if (!artistName) throw new Error('No artist name was provided.');
 
-    const connections = await this.fetchArtistConnections(artistName);
+    const connections = await this.fetchArtistConnections(artistName, pageNum);
 
     const info = connections.map(
       async ({ link }) => await this.fetchConnectionsDetails(link),
