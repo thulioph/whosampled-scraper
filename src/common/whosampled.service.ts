@@ -30,7 +30,13 @@ export class WhoSampledService {
     scope: any,
   ): Promise<[]> {
     if (!url || !selector || !scope) throw new Error('Missing parameters.');
-    const x = xray();
+    const x = xray({
+      filters: {
+        trim: function(value) {
+          return typeof value === 'string' ? value.trim() : value;
+        },
+      },
+    });
     x.driver(driver);
     return await x(url, selector, scope);
   }
