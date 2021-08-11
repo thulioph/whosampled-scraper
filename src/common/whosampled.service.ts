@@ -1,6 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as xray from 'x-ray';
 
+// driver
+import * as makeDriver from 'request-x-ray';
+const options = {
+  method: 'GET', // Set HTTP method
+  jar: true, // Enable cookies
+  headers: {
+    'User-Agent': 'Firefox/48.0', // Set headers
+  },
+};
+const driver = makeDriver(options); //Create driver
+
 import { Nodes } from './nodes.service';
 
 @Injectable()
@@ -20,6 +31,7 @@ export class WhoSampledService {
   ): Promise<[]> {
     if (!url || !selector || !scope) throw new Error('Missing parameters.');
     const x = xray();
+    x.driver(driver);
     return await x(url, selector, scope);
   }
 

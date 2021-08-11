@@ -28,6 +28,7 @@
     "@types/node": "^13.9.6",
     "helmet": "^3.22.0",
     "reflect-metadata": "^0.1.13",
+    "request-x-ray": "^0.1.4",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
     "x-ray": "^2.3.4"
