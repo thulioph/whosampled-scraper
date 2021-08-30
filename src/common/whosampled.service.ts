@@ -1,18 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as xray from 'x-ray';
+import * as makeDriver from 'request-x-ray';
+
+import { Nodes } from './nodes.service';
 
 // driver
-import * as makeDriver from 'request-x-ray';
 const options = {
   method: 'GET', // Set HTTP method
   jar: true, // Enable cookies
   headers: {
-    'User-Agent': 'Firefox/48.0', // Set headers
+    'User-Agent': 'Firefox/48.0', // Set headers to bypass whosampled
   },
 };
-const driver = makeDriver(options); //Create driver
 
-import { Nodes } from './nodes.service';
+// Create driver
+const driver = makeDriver(options);
 
 @Injectable()
 export class WhoSampledService {
