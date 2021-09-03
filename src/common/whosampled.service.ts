@@ -9,10 +9,11 @@ const options = {
   method: 'GET', // Set HTTP method
   jar: true, // Enable cookies
   headers: {
-    'User-Agent': 'Firefox/48.0', // Set headers
+    'User-Agent': 'Firefox/48.0', // Set headers to bypass whosampled
   },
 };
-const driver = makeDriver(options); //Create driver
+
+const driver = makeDriver(options); // Create driver
 
 @Injectable()
 export class WhoSampledService {
@@ -30,6 +31,7 @@ export class WhoSampledService {
     scope: any,
   ): Promise<[]> {
     if (!url || !selector || !scope) throw new Error('Missing parameters.');
+
     const x = xray({
       filters: {
         trim: function(value) {
@@ -37,7 +39,9 @@ export class WhoSampledService {
         },
       },
     });
+
     x.driver(driver);
+
     return await x(url, selector, scope);
   }
 
