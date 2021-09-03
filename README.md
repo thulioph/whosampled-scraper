@@ -43,6 +43,19 @@ To **serve a production** version, run:
 $ npm run start:prod
 ```
 
+
+## Routes
+
+So far, we have available **two** different routes, one to get artist information and another to get artist information on another page.
+
+### artist
+
+In order to get information from a **specific artist**, hit: `https://whosampled-scraper.herokuapp.com/artist/2pac/`.
+
+### page
+
+In order to get information from a **specific artist on another page**, hit: `https://whosampled-scraper.herokuapp.com/artist/2pac/2/`
+
 ## License
 
 [MIT License](https://thulioph.mit-license.org/) © Thulio Philipe
