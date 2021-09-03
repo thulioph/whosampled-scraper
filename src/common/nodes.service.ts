@@ -6,7 +6,7 @@ export class Nodes {
         title: '.connectionTitle a',
         image: 'img@src',
       },
-    ]
+    ];
   }
 
   static detailedEntry() {
@@ -16,7 +16,7 @@ export class Nodes {
       },
       dest: {
         name: '#sampleWrap_dest  .trackName',
-        artist: '#sampleWrap_dest .sampleTrackArtists',
+        artist: '#sampleWrap_dest .sampleTrackArtists | trim',
         release: '#sampleWrap_dest .release-name a',
         year: '#sampleWrap_dest .trackLabel a',
         image: '#sampleWrap_dest .sampleTrackImage img@src',
@@ -26,14 +26,14 @@ export class Nodes {
       },
       source: {
         name: '#sampleWrap_source  .trackName',
-        artist: '#sampleWrap_source .sampleTrackArtists',
+        artist: '#sampleWrap_source .sampleTrackArtists | trim',
         release: '#sampleWrap_source .release-name a',
         year: '#sampleWrap_source .trackLabel a',
         label: '#sampleWrap_source .trackLabel span',
         image: '#sampleWrap_source .sampleTrackImage img@src',
         appearsAt: '.source-timing',
         youtubeId: '.embed-source .youtube-placeholder@data-id',
-      }
+      },
     };
   }
 }
