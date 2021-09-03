@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as xray from 'x-ray';
+import * as makeDriver from 'request-x-ray';
+
+import { Nodes } from './nodes.service';
 
 // driver
-import * as makeDriver from 'request-x-ray';
 const options = {
   method: 'GET', // Set HTTP method
   jar: true, // Enable cookies
@@ -11,8 +13,6 @@ const options = {
   },
 };
 const driver = makeDriver(options); //Create driver
-
-import { Nodes } from './nodes.service';
 
 @Injectable()
 export class WhoSampledService {
